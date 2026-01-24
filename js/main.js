@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded',function(){
     pageOverlay.className = 'page-transition';
     document.body.appendChild(pageOverlay);
 
-    // handle nav links that navigate to other pages: show overlay then navigate
+    // handle nav links that navigate to other pages: slide overlay then navigate
     var navLinksForNavigation = document.querySelectorAll('.main-nav a');
     navLinksForNavigation.forEach(function(link){
       var href = link.getAttribute('href');
@@ -109,8 +109,34 @@ document.addEventListener('DOMContentLoaded',function(){
         e.preventDefault();
         // close nav on mobile
         if(nav && nav.classList.contains('open')){ nav.classList.remove('open'); }
+
+        // decide direction: navigating to home should come from right->left, others left->right
+        var targetUrl = new URL(link.href, location.href);
+        var targetPath = targetUrl.pathname.replace(/\/$/,'');
+        var curRoot = location.pathname.replace(/\/$/,'');
+        var isHome = (targetPath === '' || targetPath === '/index.html' || targetPath === '/index.htm' || targetPath === '/');
+
+        // prepare overlay start position
+        var enterFromRight = false;
+        if(isHome){
+          // for home, enter from right
+          pageOverlay.style.transform = 'translateX(100%)';
+          enterFromRight = true;
+        } else {
+          // for other pages, enter from left
+          pageOverlay.style.transform = 'translateX(-100%)';
+        }
+
+        // force layout then animate into view
         pageOverlay.classList.add('show');
-        setTimeout(function(){ window.location.href = link.href; }, 260);
+        // next frame set to 0 to animate
+        requestAnimationFrame(function(){
+          pageOverlay.style.transform = 'translateX(0)';
+        });
+
+        // navigate after animation completes
+        var duration = 340; // ms (slightly longer than CSS)
+        setTimeout(function(){ window.location.href = link.href; }, duration);
       });
     });
 
