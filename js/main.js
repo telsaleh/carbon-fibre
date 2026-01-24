@@ -95,6 +95,17 @@ document.addEventListener('DOMContentLoaded',function(){
     var pageOverlay = document.createElement('div');
     pageOverlay.className = 'page-transition';
     document.body.appendChild(pageOverlay);
+    // safety: ensure overlay is not left visible on load
+    pageOverlay.classList.remove('show');
+    pageOverlay.setAttribute('aria-hidden','true');
+    // debug: log computed header styles to help diagnose invisible text
+    try{
+      var logoEl = document.querySelector('.site-header .logo');
+      var navEl = document.querySelector('.site-header .main-nav a');
+      console.log('DEBUG: header logo computedStyle ->', logoEl && getComputedStyle(logoEl));
+      console.log('DEBUG: header nav computedStyle ->', navEl && getComputedStyle(navEl));
+      console.log('DEBUG: pageOverlay classes', pageOverlay.className, 'pageOverlay computedStyle ->', getComputedStyle(pageOverlay));
+    }catch(e){ console.log('DEBUG: header debug failed', e); }
 
     // handle nav links that navigate to other pages: slide overlay then navigate
     var navLinksForNavigation = document.querySelectorAll('.main-nav a');
@@ -110,32 +121,16 @@ document.addEventListener('DOMContentLoaded',function(){
         // close nav on mobile
         if(nav && nav.classList.contains('open')){ nav.classList.remove('open'); }
 
-        // decide direction: navigating to home should come from right->left, others left->right
-        var targetUrl = new URL(link.href, location.href);
-        var targetPath = targetUrl.pathname.replace(/\/$/,'');
-        var curRoot = location.pathname.replace(/\/$/,'');
-        var isHome = (targetPath === '' || targetPath === '/index.html' || targetPath === '/index.htm' || targetPath === '/');
-
-        // prepare overlay start position
-        var enterFromRight = false;
-        if(isHome){
-          // for home, enter from right
-          pageOverlay.style.transform = 'translateX(100%)';
-          enterFromRight = true;
-        } else {
-          // for other pages, enter from left
-          pageOverlay.style.transform = 'translateX(-100%)';
-        }
-
-        // force layout then animate into view
+        // top-to-down fade overlay for all page navigations
+        // close nav on mobile already handled above
+        // ensure overlay is in initial hidden state, then trigger show to animate from top
+        pageOverlay.classList.remove('show');
+        // force reflow so the class toggle will animate reliably
+        void pageOverlay.offsetWidth;
         pageOverlay.classList.add('show');
-        // next frame set to 0 to animate
-        requestAnimationFrame(function(){
-          pageOverlay.style.transform = 'translateX(0)';
-        });
 
-        // navigate after animation completes
-        var duration = 340; // ms (slightly longer than CSS)
+        // navigate after animation completes (match CSS ~320ms + small buffer)
+        var duration = 360; // ms
         setTimeout(function(){ window.location.href = link.href; }, duration);
       });
     });
