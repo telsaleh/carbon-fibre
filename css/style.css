@@ -30,7 +30,7 @@ main{padding-top:var(--header-height)}
 
 /* Scroll progress indicator */
 .scroll-indicator{position:fixed;left:0;right:0;top:var(--header-height);height:4px;z-index:70;pointer-events:none;opacity:0;transition:opacity .25s ease}
-.scroll-indicator .bar{height:100%;width:0;background:linear-gradient(90deg,#bdbdbd,#9e9e9e);box-shadow:0 0 8px rgba(0,0,0,.35);transition:width .12s linear}
+.scroll-indicator .bar{height:100%;width:0;background:linear-gradient(90deg,#000000,#f8f4eb);box-shadow:0 0 10px rgba(248,244,235,0.12);transition:width .12s linear}
 .scroll-indicator.visible{opacity:1}
 
 /* Page transition overlay used when navigating between pages */
