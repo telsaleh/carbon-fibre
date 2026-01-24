@@ -10,14 +10,22 @@
   <body>
     <header class="site-header">
       <a class="logo" href="/">CarbonFibre</a>
-      <nav class="main-nav">
+      <div class="header-right">
+        <div class="contact-top">
+          <a href="mailto:info@example.com">info@example.com</a>
+          <span class="sep">·</span>
+          <a href="tel:+000000000">+0 000 000 000</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+      <nav class="main-nav" aria-hidden="false">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="services.html">Services</a>
         <a class="contact-btn" href="#contact">Contact</a>
-        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       </nav>
+      <div class="nav-overlay" aria-hidden="true"></div>
     </header>
 
     <main>
@@ -78,7 +86,6 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <p>&copy; <span id="year"></span> CarbonFibre — All rights reserved.</p>
-        <p>Address: placeholder · <a href="#contact">Contact</a></p>
       </div>
     </footer>
 

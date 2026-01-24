@@ -9,14 +9,22 @@
   <body>
     <header class="site-header">
       <a class="logo" href="index.html">CarbonFibre</a>
-      <nav class="main-nav">
+      <div class="header-right">
+        <div class="contact-top">
+          <a href="mailto:info@example.com">info@example.com</a>
+          <span class="sep">·</span>
+          <a href="tel:+000000000">+0 000 000 000</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+      <nav class="main-nav" aria-hidden="false">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="services.html">Services</a>
         <a class="contact-btn" href="index.html#contact">Contact</a>
-        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       </nav>
+      <div class="nav-overlay" aria-hidden="true"></div>
     </header>
     <main style="padding:100px 20px 40px;">
       <div style="max-width:1000px;margin:0 auto;">

@@ -8,7 +8,17 @@ document.addEventListener('DOMContentLoaded',function(){
   if(toggle && nav){
     toggle.addEventListener('click',function(){
       nav.classList.toggle('open');
+      // sync overlay aria
+      var overlay=document.querySelector('.nav-overlay');
+      if(overlay) overlay.setAttribute('aria-hidden', !nav.classList.contains('open'));
     });
+    // close when clicking overlay
+    var overlay=document.querySelector('.nav-overlay');
+    if(overlay){
+      overlay.addEventListener('click',function(){ nav.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); });
+    }
+    // close on escape
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ nav.classList.remove('open'); if(overlay) overlay.setAttribute('aria-hidden','true'); } });
   }
 
   // small animation: fade in tiles when visible
