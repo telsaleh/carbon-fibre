@@ -80,6 +80,16 @@ document.addEventListener('DOMContentLoaded',function(){
     bar.className = 'bar';
     indicator.appendChild(bar);
     document.body.appendChild(indicator);
+    // position indicator under header using actual header height (fallback to CSS var)
+    try{
+      var headerH = header ? header.offsetHeight : null;
+      if(headerH){
+        indicator.style.top = headerH + 'px';
+      } else {
+        // try using CSS variable
+        indicator.style.top = getComputedStyle(document.documentElement).getPropertyValue('--header-height') || '64px';
+      }
+    }catch(e){}
 
     var raf = null, last = 0, idleTimer = null;
     function getProgress(){

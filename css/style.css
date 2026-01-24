@@ -1,13 +1,14 @@
 :root{
   --bg:#0b0b0b;--muted:#9aa0a6;--accent:#e6e6e6;--accent-2:#b9c0c5;
   --max-width:1200px;
+  --header-height:64px;
 }
 /* native smooth scrolling as a baseline */
 html{scroll-behavior:smooth}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:var(--accent);background:var(--bg)}
 a{color:var(--accent-2);text-decoration:none}
-.site-header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;z-index:60;--header-height:64px}
+.site-header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;z-index:60}
 .logo{font-weight:700;color:var(--accent);font-size:1.05rem}
 .header-right{display:flex;align-items:center;gap:12px}
 .contact-top{color:var(--muted);font-size:0.95rem;display:flex;gap:8px;align-items:center}
