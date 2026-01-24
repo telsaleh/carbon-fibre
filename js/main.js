@@ -17,6 +17,18 @@ document.addEventListener('DOMContentLoaded',function(){
     if(overlay){
       overlay.addEventListener('click',function(){ nav.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); });
     }
+    // close when clicking any nav link (handles in-page anchors like #contact)
+    var navLinks = document.querySelectorAll('.main-nav a');
+    if(navLinks && navLinks.length){
+      navLinks.forEach(function(link){
+        link.addEventListener('click', function(){
+          if(nav.classList.contains('open')){
+            nav.classList.remove('open');
+            if(overlay) overlay.setAttribute('aria-hidden','true');
+          }
+        });
+      });
+    }
     // close on escape
     document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ nav.classList.remove('open'); if(overlay) overlay.setAttribute('aria-hidden','true'); } });
   }
