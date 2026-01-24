@@ -52,7 +52,7 @@ main{padding-top:var(--header-height)}
 .page-transition.show{pointer-events:auto;transform:translateY(0);opacity:1}
 
 /* Background for non-home pages */
-.page-bg{background-image:linear-gradient(180deg,rgba(2,2,2,.45),rgba(2,2,2,.7)),url('../images/background-4852316.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;min-height:100vh}
+.page-bg{background-image:linear-gradient(180deg,rgba(2,2,2,.45),rgba(2,2,2,.7)),url('../images/metallic-texture-background.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;min-height:100vh}
 
 
 .hero{height:84vh;min-height:520px;background-image:linear-gradient(180deg,rgba(2,2,2,.35),rgba(2,2,2,.6)),url('../images/natural-black-metal-grille-carbon-steel.jpg');background-size:cover;background-position:center;display:flex;align-items:center}
