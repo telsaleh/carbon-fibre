@@ -70,4 +70,38 @@ document.addEventListener('DOMContentLoaded',function(){
     var anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(function(a){ a.addEventListener('click', handleAnchorClick); });
   })();
+
+  // Scroll progress indicator
+  (function(){
+    var header = document.querySelector('.site-header');
+    var indicator = document.createElement('div');
+    indicator.className = 'scroll-indicator';
+    var bar = document.createElement('div');
+    bar.className = 'bar';
+    indicator.appendChild(bar);
+    document.body.appendChild(indicator);
+
+    var raf = null, last = 0, idleTimer = null;
+    function getProgress(){
+      var h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var max = h - vh;
+      if(max <= 0) return 0;
+      return Math.min(100, Math.max(0, (window.pageYOffset / max) * 100));
+    }
+
+    function update(){
+      var p = getProgress();
+      bar.style.width = p + '%';
+      // show while scrolling
+      indicator.classList.add('visible');
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(function(){ indicator.classList.remove('visible'); }, 700);
+      raf = null;
+    }
+
+    window.addEventListener('scroll', function(){ if(raf) return; raf = requestAnimationFrame(update); });
+    // initial state
+    update();
+  })();
 });
