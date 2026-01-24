@@ -91,6 +91,29 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     }catch(e){}
 
+    // Page transition overlay (for navigating between pages)
+    var pageOverlay = document.createElement('div');
+    pageOverlay.className = 'page-transition';
+    document.body.appendChild(pageOverlay);
+
+    // handle nav links that navigate to other pages: show overlay then navigate
+    var navLinksForNavigation = document.querySelectorAll('.main-nav a');
+    navLinksForNavigation.forEach(function(link){
+      var href = link.getAttribute('href');
+      if(!href) return;
+      // skip same-page anchors
+      if(href.charAt(0) === '#') return;
+      link.addEventListener('click', function(e){
+        // allow modifier clicks to behave normally
+        if(e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        // close nav on mobile
+        if(nav && nav.classList.contains('open')){ nav.classList.remove('open'); }
+        pageOverlay.classList.add('show');
+        setTimeout(function(){ window.location.href = link.href; }, 260);
+      });
+    });
+
     var raf = null, last = 0, idleTimer = null;
     function getProgress(){
       var h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
