@@ -91,50 +91,6 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     }catch(e){}
 
-    // Page transition overlay (for navigating between pages)
-    var pageOverlay = document.createElement('div');
-    pageOverlay.className = 'page-transition';
-    document.body.appendChild(pageOverlay);
-    // safety: ensure overlay is not left visible on load
-    pageOverlay.classList.remove('show');
-    pageOverlay.setAttribute('aria-hidden','true');
-    // debug: log computed header styles to help diagnose invisible text
-    try{
-      var logoEl = document.querySelector('.site-header .logo');
-      var navEl = document.querySelector('.site-header .main-nav a');
-      console.log('DEBUG: header logo computedStyle ->', logoEl && getComputedStyle(logoEl));
-      console.log('DEBUG: header nav computedStyle ->', navEl && getComputedStyle(navEl));
-      console.log('DEBUG: pageOverlay classes', pageOverlay.className, 'pageOverlay computedStyle ->', getComputedStyle(pageOverlay));
-    }catch(e){ console.log('DEBUG: header debug failed', e); }
-
-    // handle nav links that navigate to other pages: slide overlay then navigate
-    var navLinksForNavigation = document.querySelectorAll('.main-nav a');
-    navLinksForNavigation.forEach(function(link){
-      var href = link.getAttribute('href');
-      if(!href) return;
-      // skip same-page anchors
-      if(href.charAt(0) === '#') return;
-      link.addEventListener('click', function(e){
-        // allow modifier clicks to behave normally
-        if(e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-        e.preventDefault();
-        // close nav on mobile
-        if(nav && nav.classList.contains('open')){ nav.classList.remove('open'); }
-
-        // top-to-down fade overlay for all page navigations
-        // close nav on mobile already handled above
-        // ensure overlay is in initial hidden state, then trigger show to animate from top
-        pageOverlay.classList.remove('show');
-        // force reflow so the class toggle will animate reliably
-        void pageOverlay.offsetWidth;
-        pageOverlay.classList.add('show');
-
-        // navigate after animation completes (match CSS ~320ms + small buffer)
-        var duration = 360; // ms
-        setTimeout(function(){ window.location.href = link.href; }, duration);
-      });
-    });
-
     var raf = null, last = 0, idleTimer = null;
     function getProgress(){
       var h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
