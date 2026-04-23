@@ -12,12 +12,14 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;colo
 a{color:var(--accent-2);text-decoration:none}
 .site-header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;z-index:10001;transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .logo{font-weight:600;color:var(--accent);font-size:16px;line-height:1}
+.logo img{height:70px;width:auto;display:block}
 .header-right{display:flex;align-items:center;gap:12px}
 .contact-top{color:var(--muted);font-size:0.95rem;display:flex;gap:8px;align-items:center}
 .contact-top a{color:var(--accent-2)}
 .sep{opacity:.45}
 .main-nav{display:flex;gap:18px;align-items:center}
 .main-nav a{color:var(--accent-2);opacity:.95;padding:6px 8px;font-size:16px;line-height:1;font-weight:600}
+.mobile-logo{display:none}
 
 /* main nav is visible on large screens; mobile toggle shows at <=960px */
 
@@ -94,6 +96,8 @@ main{padding-top:var(--header-height)}
 @media (max-width:960px){
   .nav-toggle{display:inline-block}
   .main-nav{position:fixed;top:0;left:-320px;height:100vh;width:280px;flex-direction:column;padding:72px 16px 20px;background:#ffffff;backdrop-filter:blur(6px);border-right:1px solid #e9ecef;z-index:60;box-shadow:2px 0 8px rgba(0,0,0,0.1)}
+  .mobile-logo{display:block;position:absolute;top:16px;left:50%;transform:translateX(-50%);padding:0}
+  .mobile-logo img{height:55px;width:auto}
   .main-nav a{display:block;padding:12px 6px;border-radius:6px}
   .main-nav.open{left:0}
   .nav-overlay{opacity:0;pointer-events:none}
