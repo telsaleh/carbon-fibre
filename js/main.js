@@ -1,37 +1,74 @@
 document.addEventListener('DOMContentLoaded',function(){
+  // Load header and footer includes
+  function loadIncludes(){
+    var headerPlaceholder = document.getElementById('header-placeholder');
+    var footerPlaceholder = document.getElementById('footer-placeholder');
+    
+    if(headerPlaceholder){
+      fetch('includes/header.html')
+        .then(function(response){ return response.text(); })
+        .then(function(html){
+          headerPlaceholder.outerHTML = html;
+          // Re-initialize nav toggle after header is loaded
+          initNavToggle();
+        })
+        .catch(function(err){ console.error('Failed to load header:', err); });
+    }
+    
+    if(footerPlaceholder){
+      fetch('includes/footer.html')
+        .then(function(response){ return response.text(); })
+        .then(function(html){
+          footerPlaceholder.outerHTML = html;
+          // Re-initialize year after footer is loaded
+          var y=document.getElementById('year'); 
+          if(y) y.textContent=new Date().getFullYear();
+        })
+        .catch(function(err){ console.error('Failed to load footer:', err); });
+    }
+  }
+  
+  // Initialize navigation toggle (can be called after dynamic load)
+  function initNavToggle(){
+    var toggle=document.querySelector('.nav-toggle');
+    var nav=document.querySelector('.main-nav');
+    if(toggle && nav){
+      toggle.addEventListener('click',function(){
+        nav.classList.toggle('open');
+        // sync overlay aria
+        var overlay=document.querySelector('.nav-overlay');
+        if(overlay) overlay.setAttribute('aria-hidden', !nav.classList.contains('open'));
+      });
+      // close when clicking overlay
+      var overlay=document.querySelector('.nav-overlay');
+      if(overlay){
+        overlay.addEventListener('click',function(){ nav.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); });
+      }
+      // close when clicking any nav link (handles in-page anchors like #contact)
+      var navLinks = document.querySelectorAll('.main-nav a');
+      if(navLinks && navLinks.length){
+        navLinks.forEach(function(link){
+          link.addEventListener('click', function(){
+            if(nav.classList.contains('open')){
+              nav.classList.remove('open');
+              if(overlay) overlay.setAttribute('aria-hidden','true');
+            }
+          });
+        });
+      }
+      // close on escape
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ nav.classList.remove('open'); if(overlay) overlay.setAttribute('aria-hidden','true'); } });
+    }
+  }
+  
+  // Load includes first
+  loadIncludes();
+  
   // insert current year
   var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
 
   // nav toggle for small screens
-  var toggle=document.querySelector('.nav-toggle');
-  var nav=document.querySelector('.main-nav');
-  if(toggle && nav){
-    toggle.addEventListener('click',function(){
-      nav.classList.toggle('open');
-      // sync overlay aria
-      var overlay=document.querySelector('.nav-overlay');
-      if(overlay) overlay.setAttribute('aria-hidden', !nav.classList.contains('open'));
-    });
-    // close when clicking overlay
-    var overlay=document.querySelector('.nav-overlay');
-    if(overlay){
-      overlay.addEventListener('click',function(){ nav.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); });
-    }
-    // close when clicking any nav link (handles in-page anchors like #contact)
-    var navLinks = document.querySelectorAll('.main-nav a');
-    if(navLinks && navLinks.length){
-      navLinks.forEach(function(link){
-        link.addEventListener('click', function(){
-          if(nav.classList.contains('open')){
-            nav.classList.remove('open');
-            if(overlay) overlay.setAttribute('aria-hidden','true');
-          }
-        });
-      });
-    }
-    // close on escape
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ nav.classList.remove('open'); if(overlay) overlay.setAttribute('aria-hidden','true'); } });
-  }
+  initNavToggle();
 
   // small animation: fade in tiles when visible
   var tiles=document.querySelectorAll('.tile, .card, .project');
