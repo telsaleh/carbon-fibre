@@ -151,4 +151,94 @@ document.addEventListener('DOMContentLoaded',function(){
     // initial state
     update();
   })();
+
+  // Slideshow Gallery functionality
+  function initSlideshows(){
+    var galleries = document.querySelectorAll('.slideshow-gallery');
+    galleries.forEach(function(gallery){
+      var slides = gallery.querySelectorAll('.slide');
+      var prevBtn = gallery.querySelector('.prev');
+      var nextBtn = gallery.querySelector('.next');
+      var dots = gallery.querySelectorAll('.dot');
+      var counter = gallery.querySelector('.counter');
+      var currentIndex = 0;
+      var autoPlayInterval = null;
+
+      function showSlide(index){
+        if(index >= slides.length) index = 0;
+        if(index < 0) index = slides.length - 1;
+        
+        slides.forEach(function(slide, i){
+          slide.classList.remove('active');
+          if(dots[i]) dots[i].classList.remove('active');
+        });
+        
+        slides[index].classList.add('active');
+        if(dots[index]) dots[index].classList.add('active');
+        if(counter) counter.textContent = (index + 1) + ' / ' + slides.length;
+        currentIndex = index;
+      }
+
+      function nextSlide(){
+        showSlide(currentIndex + 1);
+      }
+
+      function prevSlide(){
+        showSlide(currentIndex - 1);
+      }
+
+      function startAutoPlay(){
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, 5000);
+      }
+
+      function stopAutoPlay(){
+        if(autoPlayInterval){
+          clearInterval(autoPlayInterval);
+          autoPlayInterval = null;
+        }
+      }
+
+      // Event listeners
+      if(prevBtn) prevBtn.addEventListener('click', function(){
+        prevSlide();
+        stopAutoPlay();
+      });
+      
+      if(nextBtn) nextBtn.addEventListener('click', function(){
+        nextSlide();
+        stopAutoPlay();
+      });
+
+      dots.forEach(function(dot, i){
+        dot.addEventListener('click', function(){
+          showSlide(i);
+          stopAutoPlay();
+        });
+      });
+
+      // Keyboard navigation
+      gallery.setAttribute('tabindex', '0');
+      gallery.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowLeft'){
+          prevSlide();
+          stopAutoPlay();
+        } else if(e.key === 'ArrowRight'){
+          nextSlide();
+          stopAutoPlay();
+        }
+      });
+
+      // Pause autoplay on hover
+      gallery.addEventListener('mouseenter', stopAutoPlay);
+      gallery.addEventListener('mouseleave', startAutoPlay);
+
+      // Initialize
+      showSlide(0);
+      startAutoPlay();
+    });
+  }
+
+  // Initialize slideshows after a short delay to ensure DOM is ready
+  setTimeout(initSlideshows, 100);
 });
