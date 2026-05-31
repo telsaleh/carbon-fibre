@@ -18,13 +18,13 @@ a{color:var(--accent-2);text-decoration:none}
 .contact-top a{color:var(--accent-2)}
 .sep{opacity:.45}
 .main-nav{display:flex;gap:18px;align-items:center}
-.main-nav a{color:var(--accent-2);opacity:.95;padding:6px 8px;font-size:16px;line-height:1;font-weight:600}
+.main-nav a{color:var(--accent-2);opacity:.95;padding:3px 4px;font-size:16px;line-height:1;font-weight:600}
 .mobile-logo{display:none}
 
 /* main nav is visible on large screens; mobile toggle shows at <=960px */
 
 /* Ensure header children don't inherit accidental transforms that change rendering */
-.site-header *{transform:none}
+.site-header .logo{transform:none}
 
 /* Normalize rendering for header text to avoid bolder appearance on some pages */
 .site-header .logo, .site-header .main-nav a, .site-header .contact-top a{
@@ -121,7 +121,7 @@ main{padding-top:var(--header-height)}
   .mobile-logo img{height:55px;width:auto}
   .main-nav a{display:block;padding:12px 6px;border-radius:6px}
   .nav-sections{display:flex;width:100%;flex-direction:row;gap:8px;margin:8px 0 14px}
-  .section-btn{flex:1;text-align:center;padding:6px 10px}
+  .main-nav .section-btn{flex:1;text-align:center;padding:2px 4px}
   .main-nav.open{left:0}
   .nav-overlay{opacity:0;pointer-events:none}
   .main-nav.open ~ .nav-overlay,.main-nav.open + .nav-overlay{opacity:1;pointer-events:auto}
@@ -138,7 +138,7 @@ h2{margin:0 0 12px}
 
 /* Navigation sections (CFR / Homeowner) */
 .nav-sections{display:flex;gap:12px;align-items:center}
-.section-btn{padding:8px 16px;border-radius:4px;font-weight:600;transition:all 0.3s ease;border:2px solid transparent}
+.section-btn{padding:4px 8px;border-radius:4px;font-weight:600;transition:all 0.3s ease;border:2px solid transparent}
 .cfr-btn{background:#ff9800;color:#ffffff;border-color:#ff9800}
 .cfr-btn:hover{background:#f57c00;border-color:#f57c00}
 .homeowner-btn{background:#ff9800;color:#ffffff;border-color:#ff9800}
